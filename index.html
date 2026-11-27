@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mosaik7 – Achats et fournisseurs</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f3f5f9;--cd:#fff;--tx:#1b2433;--mu:#667085;--bd:#e1e5ec;--bt:#12306b;--ln:#1d4592;--sd:#0e2557;--ok:#177a46;--wa:#a86a00;--er:#c0392b;--hv:#eef2fa;color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1320;--cd:#162033;--tx:#e6ebf5;--mu:#97a3b8;--bd:#263450;--bt:#3b6bd6;--ln:#8fb2ff;--sd:#0a1630;--ok:#4cc38a;--wa:#e0a43c;--er:#ef6b5b;--hv:#1d2a45;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0d1320;--cd:#162033;--tx:#e6ebf5;--mu:#97a3b8;--bd:#263450;--bt:#3b6bd6;--ln:#8fb2ff;--sd:#0a1630;--ok:#4cc38a;--wa:#e0a43c;--er:#ef6b5b;--hv:#1d2a45;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--sd);z-index:30}
+aside{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--sd);color:#fff;padding:calc(16px + env(safe-area-inset-top,0px)) 12px calc(16px + env(safe-area-inset-bottom,0px));z-index:20;overflow:auto;transition:transform .2s}
+.lg{font-weight:700;font-size:21px;margin:0 8px 18px}.lg small{display:block;font-weight:400;font-size:12px;opacity:.7}
+aside a{display:block;padding:10px 12px;border-radius:8px;color:#d5def2;cursor:pointer;margin-bottom:2px}
+aside a.on,aside a:hover{background:rgba(255,255,255,.15);color:#fff}
+main{margin-left:230px;padding:22px;max-width:1240px}
+.tb{display:none}
+@media(max-width:820px){.tb{display:flex;align-items:center;gap:12px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--sd);color:#fff;padding:10px 14px;z-index:31}
+aside{transform:translateX(-100%);padding-top:calc(70px + env(safe-area-inset-top,0px))}body.nav aside{transform:none}main{margin-left:0;padding:14px}}
+h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 10px}h3{font-size:15px;margin:14px 0 6px}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:16px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:12px;margin-bottom:16px}.g .card{margin:0}
+.k{color:var(--mu);font-size:13px}.v{font-size:21px;font-weight:700;margin-top:4px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:16px}
+.btn{background:var(--bt);color:#fff;border:0;border-radius:8px;padding:9px 14px;font:inherit;cursor:pointer}
+.btn.sec{background:var(--hv);color:var(--tx);border:1px solid var(--bd)}.btn.dg{background:var(--er)}.btn.sm{padding:4px 9px;font-size:13px}
+input,select,textarea{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--cd);color:var(--tx)}
+label{display:block;font-size:13px;color:var(--mu)}label input,label select,label textarea{margin-top:3px}
+.fl{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.fl>*{flex:1 1 160px}
+.tw{overflow-x:auto;padding:0}table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--bd);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--bd);vertical-align:top}tr:last-child td{border:0}
+.b{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600;background:var(--hv);color:var(--ln)}
+.b.ok{color:var(--ok)}.b.wa{color:var(--wa)}.b.er{color:var(--er)}.mu{color:var(--mu)}
+#mod{display:none;position:fixed;inset:0;background:rgba(10,20,40,.55);z-index:50;align-items:center;justify-content:center;padding:14px}#mod.on{display:flex}
+.box{background:var(--cd);border-radius:14px;padding:20px;max-width:780px;width:100%;max-height:92vh;overflow:auto}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fg .w{grid-column:1/-1}@media(max-width:560px){.fg{grid-template-columns:1fr}}
+.ac{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.ln{display:grid;grid-template-columns:3fr 70px 100px 90px 30px;gap:6px;align-items:center;margin-bottom:6px}
+@media(max-width:560px){.ln{grid-template-columns:1fr 60px 90px}}
+.tot{text-align:right;margin:10px 0;font-size:17px}
+#t{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sd);color:#fff;padding:10px 16px;border-radius:10px;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:90%}#t.on{opacity:1}
+@media print{aside,.tb,.noprint,.btn,#t,body::before{display:none!important}main{margin:0;padding:0}.pr .rc:not(.only){display:none}}
+@media(max-width:820px){
+aside{display:none}
+.tb{display:block;padding:8px 0 0}
+.tb .r1{display:flex;justify-content:space-between;align-items:center;padding:0 14px 4px;font-size:18px}
+.tb .r1 a{font-size:13px;opacity:.85;cursor:pointer}
+#bn{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 8px}
+#bn::-webkit-scrollbar{display:none}
+#bn a{flex:none;padding:9px 12px;color:#bfcdee;font-size:14px;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer}
+#bn a.on{color:#fff;border-color:#fff;font-weight:600}
+main{padding:12px}
+h1{font-size:20px}h2{font-size:16px}
+.hd{margin-bottom:12px}.hd>.btn{flex:1 1 100%;padding:12px}
+.g{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.g .card{padding:12px}.g .card:last-child:nth-child(odd){grid-column:1/-1}
+.k{font-size:12px}.v{font-size:17px;line-height:1.25}
+.card{padding:14px;margin-bottom:12px;border-radius:14px}
+input,select,textarea{font-size:16px;padding:10px 12px}
+.btn{min-height:40px}.btn.sm{min-height:34px;padding:6px 12px;font-size:14px}
+.tw{background:none;border:0;padding:0;overflow:visible}
+.tw table,.tw tbody,.tw tr,.tw td{display:block;width:100%}.tw thead{display:none}
+.tw tr{background:var(--cd);border:1px solid var(--bd);border-radius:12px;margin-bottom:10px;padding:6px 12px}
+.tw td{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border:0;text-align:right}
+.tw td::before{content:attr(data-l);color:var(--mu);font-size:12px;text-align:left;flex:none}
+.tw td:empty{display:none}
+.tw td[data-l=""]{justify-content:flex-start;flex-wrap:wrap;gap:6px;border-top:1px solid var(--bd);margin-top:4px;padding-top:10px}
+#mod{align-items:flex-end;padding:0}.box{border-radius:18px 18px 0 0;max-height:92vh;padding:16px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.ln{grid-template-columns:70px 1fr auto 34px}.ln .lp{grid-column:1/-1}
+}
+</style></head><body>
+<div class="tb"><div class="r1"><b>Mosaik7</b><a onclick="out()">Se déconnecter</a></div><nav id="bn"></nav></div>
+<aside><div class="lg">Mosaik7<small>Achats et fournisseurs</small></div><nav id="nav"></nav><a onclick="out()" style="margin-top:12px;opacity:.8">Se déconnecter</a></aside>
+<main id="v"></main>
+<div id="mod" onclick="if(event.target===this)closeM()"><div class="box" id="mb"></div></div><div id="t"></div>
+<div id="login" style="display:none;position:fixed;inset:0;z-index:100;background:var(--bg);align-items:center;justify-content:center;padding:16px"><form class="card" style="max-width:360px;width:100%;margin:0" onsubmit="return lgn(event)"><h2>Mosaik7</h2><p class="mu">Connectez-vous pour accéder à vos achats et fournisseurs.</p><label>Email<input id="le" type="email" autocomplete="username" required></label><br><label>Mot de passe<input id="lp" type="password" autocomplete="current-password" required></label><p id="lm" style="color:var(--er)"></p><button class="btn" style="width:100%">Se connecter</button></form></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),uid=()=>crypto.randomUUID(),r3=n=>Math.round((+n||0)*1000)/1000,
+M=n=>r3(n).toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3})+' DT',
+D=s=>s?s.split('-').reverse().join('/'):'',today=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)},
+esc=s=>String(s??'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),
+MODES=['Espèces','Virement bancaire','Chèque','Autre'],opt=a=>a.map(x=>`<option>${x}</option>`).join('');
+let DB={f:[],a:[],i:[],p:[],j:[]},V='dash',F={},CB,DLc;
+/* Base de données Supabase */
+const SB_URL='https://ssesvunawejhsrpavxqx.supabase.co',SB_KEY='sb_publishable_8jWfwnmDjI95puLsPolj2g_lbSqs8Fd',sb=supabase.createClient(SB_URL,SB_KEY);
+const TB={f:'fournisseurs',a:'achats',i:'factures',p:'paiements'},
+TO={f:r=>({id:r.id,nom:r.n,contact:r.c,telephone:r.t,email:r.e,adresse:r.a,notes:r.o}),
+a:r=>({id:r.id,fournisseur_id:r.f,date_achat:r.d,numero:r.n,lignes:r.l,total:r.t,mode:r.m,fichier:r.fl?JSON.stringify(r.fl):null}),
+i:r=>({id:r.id,achat_id:r.a,fournisseur_id:r.f,numero:r.n,date_facture:r.d,echeance:r.e||null,total:r.t}),
+p:r=>({id:r.id,facture_id:r.i,fournisseur_id:r.f,date_paiement:r.d,montant:r.m,mode:r.o,reference:r.r,commentaire:r.c})},
+FR={f:r=>({id:r.id,n:r.nom,c:r.contact||'',t:r.telephone||'',e:r.email||'',a:r.adresse||'',o:r.notes||''}),
+a:r=>({id:r.id,f:r.fournisseur_id,d:r.date_achat,n:r.numero,l:r.lignes,t:+r.total,m:r.mode,fl:r.fichier?JSON.parse(r.fichier):null}),
+i:r=>({id:r.id,a:r.achat_id,f:r.fournisseur_id,n:r.numero,d:r.date_facture,e:r.echeance||'',t:+r.total}),
+p:r=>({id:r.id,i:r.facture_id,f:r.fournisseur_id,d:r.date_paiement,m:+r.montant,o:r.mode||'',r:r.reference||'',c:r.commentaire||''})};
+let SN={f:{},a:{},i:{},p:{}},Q=Promise.resolve(),busy=0,bad=0;
+const ck=x=>{if(x.error)throw x.error},ch=(a,n)=>Array.from({length:Math.ceil(a.length/n)},(_,i)=>a.slice(i*n,i*n+n)),
+put=f=>{busy++;Q=Q.then(f).catch(e=>{bad=1;modal(`<h2>Enregistrement impossible</h2><p>Les données n’ont pas été enregistrées dans la base.</p><p class="mu">Message : ${esc(e.message||e)}</p><div class="ac"><button class="btn" onclick="closeM()">Fermer</button></div>`)}).then(()=>{busy--})},
+refresh=()=>{if($('#mod').classList.contains('on'))return;if(['dash','rep','dat'].includes(V))$('#v').innerHTML=({dash,rep,dat})[V]();else if($('#res'))list()};
+function save(){const up=[],dl=[];
+for(const k of ['f','a','i','p']){const cur=new Map(DB[k].map(r=>[r.id,JSON.stringify(r)])),rows=[],ids=[];
+for(const [id,x] of cur)if(SN[k][id]!==x){SN[k][id]=x;rows.push(TO[k](JSON.parse(x)))}
+for(const id of Object.keys(SN[k]))if(!cur.has(id)){delete SN[k][id];ids.push(id)}
+if(rows.length)up.push([k,rows]);if(ids.length)dl.unshift([k,ids])}
+for(const [k,ids] of dl)for(const c of ch(ids,40))put(async()=>ck(await sb.from(TB[k]).delete().in('id',c)));
+for(const [k,rows] of up)for(const c of ch(rows,200))put(async()=>ck(await sb.from(TB[k]).upsert(c)))}
+async function pull(){const all=async T=>{let r=[],s=0;for(;;){const x=await sb.from(T).select('*').order('id').range(s,s+999);ck(x);r=r.concat(x.data);if(x.data.length<1000)return r;s+=1000}};
+const [f,a,i,p,j]=await Promise.all([...Object.values(TB).map(all),sb.from('journal').select('*').order('date_op',{ascending:false}).limit(300).then(x=>x.data||[])]);
+const R={f,a,i,p};for(const k in R){DB[k]=R[k].map(FR[k]);SN[k]={};DB[k].forEach(r=>SN[k][r.id]=JSON.stringify(r))}
+DB.j=j.map(x=>({d:x.date_op,t:x.texte}))}
+async function start(){const{data}=await sb.auth.getSession();if(!data.session){$('#login').style.display='flex';return}
+$('#login').style.display='none';try{await pull()}catch(e){toast('Connexion à la base impossible : '+(e.message||e))}render()}
+async function lgn(ev){ev.preventDefault();$('#lm').textContent='';const{error}=await sb.auth.signInWithPassword({email:$('#le').value.trim(),password:$('#lp').value});if(error){$('#lm').textContent='Email ou mot de passe incorrect.';return false}start();return false}
+function out(){modal('<h2>Déconnexion</h2><p>Voulez-vous vous déconnecter ?</p><div class="ac"><button class="btn sec" onclick="closeM()">Non</button><button class="btn" onclick="doOut()">Oui</button></div>')}
+async function doOut(){await sb.auth.signOut();location.reload()}
+async function openF(id){const a=DB.a.find(x=>x.id==id),x=await sb.storage.from('factures').createSignedUrl(a.fl.p,300);if(x.error)return toast('Fichier introuvable.');window.open(x.data.signedUrl,'_blank')}
+setInterval(async()=>{if(!busy&&!bad&&!document.hidden&&!$('#mod').classList.contains('on')&&$('#login').style.display!='flex'){try{await pull();refresh()}catch(e){}}},60000);
+function remap(d){const m={},U=/^[0-9a-f]{8}-/,n=x=>U.test(x)?x:(m[x]=m[x]||crypto.randomUUID());['f','a','i','p'].forEach(k=>d[k].forEach(r=>{r.id=n(r.id);if(k!='f'&&r.f)r.f=n(r.f);if(k=='i'&&r.a)r.a=n(r.a);if(k=='p'&&r.i)r.i=n(r.i);if(k=='a'&&r.fl&&!r.fl.p)r.fl=null}));return d}
+/* Calculs automatiques */
+const paid=i=>r3(DB.p.filter(p=>p.i===i.id).reduce((s,p)=>s+p.m,0)),rest=i=>Math.max(0,r3(i.t-paid(i))),
+stat=i=>rest(i)<=0?'Payée':paid(i)>0?'Partiellement payée':'Non payée',late=i=>rest(i)>0&&i.e&&i.e<today(),
+fn=id=>DB.f.find(x=>x.id==id)?.n||'—',invn=id=>DB.i.find(x=>x.id==id)?.n||'—',invOf=a=>DB.i.find(i=>i.a==a),
+dette=id=>r3(DB.i.filter(i=>i.f==id).reduce((s,i)=>s+rest(i),0)),T=(a,f)=>r3(a.reduce((s,x)=>s+f(x),0)),
+log=t=>{DB.j.unshift({d:new Date().toISOString(),t});DB.j=DB.j.slice(0,300);put(async()=>ck(await sb.from('journal').insert({texte:t})))},
+bd=i=>{const s=stat(i);return `<span class="b ${s=='Payée'?'ok':s=='Non payée'?'':'wa'}">${s}</span>`+(late(i)?' <span class="b er">En retard</span>':'')};
+/* Interface */
+const modal=h=>{$('#mb').innerHTML=h;$('#mod').classList.add('on')},closeM=()=>$('#mod').classList.remove('on'),
+toast=m=>{const t=$('#t');t.textContent=m;t.className='on';setTimeout(()=>t.className='',3500)},
+ask=(m,f)=>{CB=f;modal(`<p>${m}</p><div class="ac"><button class="btn sec" onclick="closeM()">Annuler</button><button class="btn dg" onclick="closeM();CB()">Confirmer</button></div>`)},
+tbl=(h,r)=>`<div class="card tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.length?r.map(x=>`<tr>${x.map((c,j)=>`<td data-l="${h[j]}">${c}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${h.length}" class="mu">Aucun résultat.</td></tr>`}</tbody></table></div>`,
+fb=(ph,d,s)=>`<div class="card fl noprint"><input placeholder="${ph}" oninput="F.q=this.value;list()">${d?`<label>Du<input type="date" onchange="F.d1=this.value;list()"></label><label>Au<input type="date" onchange="F.d2=this.value;list()"></label>`:''}${s?`<select onchange="F.s=this.value;list()"><option value="">Tous les statuts</option><option>Payée</option><option>Partiellement payée</option><option>Non payée</option><option value="late">En retard</option></select>`:''}</div><div id="res"></div>`,
+inR=d=>(!F.d1||d>=F.d1)&&(!F.d2||d<=F.d2),qm=(...a)=>!F.q||a.join(' ').toLowerCase().includes(F.q.toLowerCase()),
+stOk=i=>!F.s||(F.s=='late'?late(i):stat(i)==F.s),srt=(a,k)=>[...a].sort((x,y)=>y[k].localeCompare(x[k])),
+hd=(t,b)=>`<div class="hd"><h1>${t}</h1>${b||''}</div>`;
+const NAV=[['dash','Tableau de bord'],['four','Fournisseurs'],['ach','Achats'],['fac','Factures'],['pay','Paiements'],['rep','Rapports'],['dat','Données et journal']];
+function go(v){V=v;F={};document.body.classList.remove('nav');if(location.hash.slice(1)!=v)location.hash=v;render()}
+onhashchange=()=>{const h=location.hash.slice(1);if(NAV.some(n=>n[0]==h)&&h!=V){V=h;F={};render()}};
+function render(){$('#bn').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" onclick="go('${n[0]}')">${n[1]}</a>`).join('');const on=$('#bn a.on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" onclick="go('${n[0]}')">${n[1]}</a>`).join('');
+$('#v').innerHTML=({dash,four:()=>hd('Fournisseurs','<button class="btn" onclick="fForm()">+ Ajouter un fournisseur</button>')+fb('Rechercher un fournisseur…'),
+ach:()=>hd('Achats','<button class="btn" onclick="aForm()">+ Nouvel achat</button>')+fb('Fournisseur ou n° de facture…',1,1),
+fac:()=>hd('Factures')+'<p class="mu">Chaque achat crée automatiquement sa facture. Cliquez sur « Payer » pour enregistrer un paiement.</p>'+fb('Fournisseur ou n° de facture…',1,1),
+pay:()=>hd('Paiements','<button class="btn" onclick="pForm()">+ Nouveau paiement</button>')+fb('Fournisseur, facture ou référence…',1),rep,dat})[V]();
+if($('#res'))list();window.scrollTo(0,0)}
+function list(){$('#res').innerHTML=({four:lFour,ach:lAch,fac:lFac,pay:lPay})[V]()}
+/* Tableau de bord */
+function dash(){const m=today().slice(0,7),I=DB.i,ls=I.filter(late),op=I.filter(i=>rest(i)>0),
+k=[['Achats du mois',M(T(DB.a.filter(a=>a.d.startsWith(m)),a=>a.t))],['Total des factures',M(T(I,i=>i.t))],['Montant payé',M(T(DB.p,p=>p.m))],['Reste à payer',M(T(I,rest))],['Fournisseurs',DB.f.length],['Factures impayées',op.length],['Factures en retard',`${ls.length} (${M(T(ls,rest))})`]];
+return hd('Tableau de bord',`<span class="mu">${D(today())}</span>`)+(DB.f.length?'':'<div class="card"><h2>Pour commencer</h2><p>1. Ouvrez « Fournisseurs » et ajoutez votre premier fournisseur.<br>2. Dans « Achats », enregistrez un achat : la facture est créée automatiquement.<br>3. Dans « Paiements », enregistrez chaque règlement : le reste à payer se met à jour tout seul.</p></div>')+
+`<div class="g">${k.map(x=>`<div class="card"><div class="k">${x[0]}</div><div class="v">${x[1]}</div></div>`).join('')}</div><div class="g2"><div><h2>Factures en retard</h2>${tbl(['Facture','Fournisseur','Échéance','Reste'],ls.map(i=>[esc(i.n),esc(fn(i.f)),D(i.e),`<b>${M(rest(i))}</b>`]))}</div>
+<div><h2>Derniers achats</h2>${tbl(['Date','Fournisseur','Facture','Total'],srt(DB.a,'d').slice(0,5).map(a=>[D(a.d),esc(fn(a.f)),esc(a.n),M(a.t)]))}</div>
+<div><h2>Derniers paiements</h2>${tbl(['Date','Fournisseur','Facture','Montant'],srt(DB.p,'d').slice(0,5).map(p=>[D(p.d),esc(fn(p.f)),esc(invn(p.i)),M(p.m)]))}</div></div>`}
+/* Fournisseurs */
+const lFour=()=>tbl(['Société','Contact','Téléphone','Email','Reste dû',''],DB.f.filter(f=>qm(f.n,f.c,f.t,f.e)).sort((a,b)=>a.n.localeCompare(b.n)).map(f=>[`<b>${esc(f.n)}</b>`,esc(f.c),esc(f.t),esc(f.e),M(dette(f.id)),`<button class="btn sm sec" onclick="fFiche('${f.id}')">Historique</button> <button class="btn sm sec" onclick="fForm('${f.id}')">Modifier</button> <button class="btn sm dg" onclick="fDel('${f.id}')">Supprimer</button>`]));
+function fForm(id){const f=DB.f.find(x=>x.id==id)||{};modal(`<h2>${id?'Modifier le fournisseur':'Nouveau fournisseur'}</h2><div class="fg"><label>Nom de la société *<input id="fn1" value="${esc(f.n)}"></label><label>Nom du contact<input id="fc" value="${esc(f.c)}"></label><label>Téléphone<input id="ft" type="tel" value="${esc(f.t)}"></label><label>Email<input id="fe" type="email" value="${esc(f.e)}"></label><label class="w">Adresse<input id="fa" value="${esc(f.a)}"></label><label class="w">Notes<textarea id="fo" rows="3">${esc(f.o)}</textarea></label></div><div class="ac"><button class="btn sec" onclick="closeM()">Annuler</button><button class="btn" onclick="fSave('${id||''}')">Enregistrer</button></div>`)}
+function fSave(id){const n=$('#fn1').value.trim();if(!n)return toast('Le nom de la société est obligatoire.');
+if(DB.f.some(f=>f.id!=id&&f.n.toLowerCase()==n.toLowerCase()))return toast('Ce fournisseur existe déjà.');
+const o={n,c:$('#fc').value.trim(),t:$('#ft').value.trim(),e:$('#fe').value.trim(),a:$('#fa').value.trim(),o:$('#fo').value.trim()};
+if(id){Object.assign(DB.f.find(f=>f.id==id),o);log(`Fournisseur « ${n} » modifié`)}else{DB.f.push({id:uid(),...o});log(`Fournisseur « ${n} » ajouté`)}
+save();closeM();render();toast('Fournisseur enregistré.')}
+function fDel(id){if(DB.i.some(i=>i.f==id)||DB.a.some(a=>a.f==id))return toast('Suppression impossible : ce fournisseur a des achats enregistrés.');
+ask(`Supprimer le fournisseur « ${esc(fn(id))} » ?`,()=>{log(`Fournisseur « ${fn(id)} » supprimé`);DB.f=DB.f.filter(f=>f.id!=id);save();render()})}
+const payT=P=>tbl(['Date','Facture','Montant','Mode','Référence'],srt(P,'d').map(p=>[D(p.d),esc(invn(p.i)),M(p.m),esc(p.o),esc(p.r)]));
+function fFiche(id){const f=DB.f.find(x=>x.id==id),I=DB.i.filter(i=>i.f==id),P=DB.p.filter(p=>p.f==id),k=[['Total des factures',T(I,i=>i.t)],['Total payé',T(P,p=>p.m)],['Reste à payer',dette(id)]];
+modal(`<h2>${esc(f.n)}</h2><p class="mu">${[f.c,f.t,f.e,f.a].filter(Boolean).map(esc).join(' · ')||'Aucune coordonnée'}</p>${f.o?`<p>${esc(f.o)}</p>`:''}<div class="g">${k.map(x=>`<div class="card"><div class="k">${x[0]}</div><div class="v">${M(x[1])}</div></div>`).join('')}</div><h3>Historique des achats</h3>${tbl(['Date','Facture','Total','Restant','Statut'],srt(I,'d').map(i=>[D(i.d),esc(i.n),M(i.t),M(rest(i)),bd(i)]))}<h3>Historique des paiements</h3>${payT(P)}<div class="ac"><button class="btn" onclick="closeM()">Fermer</button></div>`)}
+/* Achats */
+const lAch=()=>tbl(['Date','Fournisseur','N° facture','Produits','Total','Mode',''],srt(DB.a,'d').filter(a=>qm(fn(a.f),a.n)&&inR(a.d)&&stOk(invOf(a.id))).map(a=>[D(a.d),esc(fn(a.f)),esc(a.n),esc(a.l[0].p)+(a.l.length>1?` (+${a.l.length-1})`:''),M(a.t),esc(a.m),`<button class="btn sm sec" onclick="aView('${a.id}')">Détails</button> <button class="btn sm dg" onclick="aDel('${a.id}')">Supprimer</button>`]));
+const addL=()=>{const d=document.createElement('div');d.className='ln';d.innerHTML='<input class="lp" placeholder="Désignation"><input class="lq" type="number" min="0" step="any" value="1" oninput="calc()"><input class="lu" type="number" min="0" step="any" placeholder="Prix unit." oninput="calc()"><b class="lt">0,000</b><button type="button" class="btn sec sm" onclick="this.parentNode.remove();calc()">✕</button>';$('#lns').append(d)},
+lines=()=>[...document.querySelectorAll('.ln')].map(l=>({p:l.querySelector('.lp').value.trim(),q:+l.querySelector('.lq').value||0,u:+l.querySelector('.lu').value||0}));
+function calc(){let t=0;document.querySelectorAll('.ln').forEach(l=>{const s=r3((+l.querySelector('.lq').value||0)*(+l.querySelector('.lu').value||0));l.querySelector('.lt').textContent=s.toFixed(3).replace('.',',');t+=s});$('#at').textContent=M(t)}
+function aForm(){if(!DB.f.length)return toast('Ajoutez d’abord un fournisseur.');
+modal(`<h2>Nouvel achat</h2><div class="fg"><label>Fournisseur *<select id="as">${DB.f.map(f=>`<option value="${f.id}">${esc(f.n)}</option>`).join('')}</select></label><label>Date d’achat *<input id="ad" type="date" value="${today()}"></label><label>N° de facture ou bon de commande *<input id="an"></label><label>Date limite de paiement<input id="ae" type="date"></label></div><h3>Produits</h3><div id="lns"></div><button class="btn sec sm" onclick="addL()">+ Ajouter un produit</button><div class="tot">Total : <b id="at">0,000 DT</b></div><div class="fg"><label>Payé maintenant (DT)<input id="ap" type="number" min="0" step="any" value="0"></label><label>Mode de paiement<select id="am">${opt(['À crédit',...MODES])}</select></label><label class="w">Photo ou PDF de la facture (10 Mo max)<input id="af" type="file" accept="image/*,application/pdf"></label></div><div class="ac"><button class="btn sec" onclick="closeM()">Annuler</button><button class="btn" onclick="aSave()">Enregistrer l’achat</button></div>`);addL()}
+async function aSave(){const f=$('#as').value,d=$('#ad').value,n=$('#an').value.trim(),e=$('#ae').value,Ls=lines().filter(l=>l.p&&l.q>0);
+if(!d||!n)return toast('La date et le numéro de facture sont obligatoires.');
+if(!Ls.length)return toast('Ajoutez au moins un produit avec une désignation et une quantité.');
+if(DB.i.some(i=>i.f==f&&i.n.toLowerCase()==n.toLowerCase()))return toast('Doublon : cette facture existe déjà pour ce fournisseur.');
+const t=r3(Ls.reduce((s,l)=>s+l.q*l.u,0)),pm=r3($('#ap').value);
+if(t<=0)return toast('Le montant total doit être supérieur à 0.');if(pm>t)return toast('Le montant payé dépasse le total.');
+let fl=null;const x=$('#af').files[0];if(x){if(x.size>1e7)return toast('Fichier trop lourd (10 Mo maximum).');const p=uid()+'-'+x.name.replace(/[^\w.\-]/g,'_'),u=await sb.storage.from('factures').upload(p,x);if(u.error)return toast('Envoi du fichier impossible.');fl={n:x.name,p}}
+const aid=uid(),iid=uid(),mo=$('#am').value;
+DB.a.push({id:aid,f,d,n,l:Ls,t,m:mo,fl});DB.i.push({id:iid,a:aid,f,n,d,e,t});
+if(pm>0)DB.p.push({id:uid(),i:iid,f,d,m:pm,o:mo=='À crédit'?'Autre':mo,r:'',c:'Paiement à l’achat'});
+log(`Achat ${n} enregistré (${fn(f)}, ${M(t)})`);save();closeM();render();toast('Achat et facture enregistrés.')}
+const b64=d=>{const [h,s]=d.split(','),z=atob(s),u=new Uint8Array(z.length);for(let i=0;i<z.length;i++)u[i]=z.charCodeAt(i);return new Blob([u],{type:h.slice(5).split(';')[0]})};
+function aView(id){const a=DB.a.find(x=>x.id==id),img=0;
+modal(`<h2>Achat ${esc(a.n)}</h2><p class="mu">${esc(fn(a.f))} · ${D(a.d)} · ${esc(a.m)}</p>${tbl(['Désignation','Qté','Prix unitaire','Total'],a.l.map(l=>[esc(l.p),l.q,M(l.u),M(l.q*l.u)]))}<div class="tot">Total : <b>${M(a.t)}</b></div>${a.fl?`${img?`<img src="${esc(a.fl.url)}" style="max-width:100%;border-radius:8px" alt="Facture">`:''}<p><button class="btn sec" onclick="openF('${a.id}')">Ouvrir la facture (${esc(a.fl.n)})</button></p>`:''}<div class="ac"><button class="btn" onclick="closeM()">Fermer</button></div>`)}
+
+function aDel(id){const a=DB.a.find(x=>x.id==id),i=invOf(id);if(DB.p.some(p=>p.i==i.id))return toast('Supprimez d’abord les paiements liés à cette facture.');
+ask(`Supprimer l’achat ${esc(a.n)} et sa facture ?`,()=>{log(`Achat ${a.n} supprimé (${fn(a.f)})`);DB.a=DB.a.filter(x=>x.id!=id);DB.i=DB.i.filter(x=>x.id!=i.id);save();render()})}
+/* Factures */
+const lFac=()=>tbl(['N° facture','Fournisseur','Date','Échéance','Total','Payé','Restant','Statut',''],srt(DB.i,'d').filter(i=>qm(fn(i.f),i.n)&&inR(i.d)&&stOk(i)).map(i=>[`<b>${esc(i.n)}</b>`,esc(fn(i.f)),D(i.d),D(i.e),M(i.t),M(paid(i)),`<b>${M(rest(i))}</b>`,bd(i),(rest(i)>0?`<button class="btn sm" onclick="pForm('${i.id}')">Payer</button> `:'')+`<button class="btn sm sec" onclick="iView('${i.id}')">Détails</button>`]));
+function iView(id){const i=DB.i.find(x=>x.id==id);modal(`<h2>Facture ${esc(i.n)}</h2><p class="mu">${esc(fn(i.f))} · du ${D(i.d)}${i.e?' · à payer avant le '+D(i.e):''}</p><div class="g"><div class="card"><div class="k">Total</div><div class="v">${M(i.t)}</div></div><div class="card"><div class="k">Déjà payé</div><div class="v">${M(paid(i))}</div></div><div class="card"><div class="k">Restant</div><div class="v">${M(rest(i))}</div></div></div><p>${bd(i)}</p><h3>Paiements de cette facture</h3>${payT(DB.p.filter(p=>p.i==id))}<div class="ac">${rest(i)>0?`<button class="btn" onclick="pForm('${id}')">Enregistrer un paiement</button>`:''}<button class="btn sec" onclick="closeM()">Fermer</button></div>`)}
+/* Paiements */
+const lPay=()=>tbl(['Date','Fournisseur','Facture','Montant','Mode','Référence','Commentaire',''],srt(DB.p,'d').filter(p=>qm(fn(p.f),invn(p.i),p.r)&&inR(p.d)).map(p=>[D(p.d),esc(fn(p.f)),esc(invn(p.i)),`<b>${M(p.m)}</b>`,esc(p.o),esc(p.r),esc(p.c),`<button class="btn sm dg" onclick="pDel('${p.id}')">Supprimer</button>`]));
+function pForm(iid){const ou=DB.i.filter(i=>rest(i)>0||i.id==iid);if(!ou.length)return toast('Aucune facture à payer.');const s=iid||ou[0].id;
+modal(`<h2>Nouveau paiement</h2><div class="fg"><label class="w">Facture concernée *<select id="pi" onchange="pFill()">${ou.map(i=>`<option value="${i.id}"${i.id==s?' selected':''}>${esc(fn(i.f))} — ${esc(i.n)} (reste ${M(rest(i))})</option>`).join('')}</select></label><label>Date du paiement *<input id="pd" type="date" value="${today()}"></label><label>Montant payé (DT) *<input id="pm" type="number" min="0" step="any"></label><label>Mode de paiement<select id="po">${opt(MODES)}</select></label><label>Référence<input id="pr"></label><label class="w">Commentaire<input id="pc"></label></div><p class="mu" id="ph"></p><div class="ac"><button class="btn sec" onclick="closeM()">Annuler</button><button class="btn" onclick="pSave()">Enregistrer le paiement</button></div>`);pFill()}
+function pFill(){const i=DB.i.find(x=>x.id==$('#pi').value);$('#pm').value=rest(i);$('#ph').textContent=`Montant restant à payer sur cette facture : ${M(rest(i))}`}
+function pSave(){const i=DB.i.find(x=>x.id==$('#pi').value),m=r3($('#pm').value),d=$('#pd').value;
+if(!d)return toast('La date est obligatoire.');if(m<=0)return toast('Le montant doit être supérieur à 0.');
+if(m>rest(i))return toast(`Le montant dépasse le reste à payer (${M(rest(i))}).`);
+DB.p.push({id:uid(),i:i.id,f:i.f,d,m,o:$('#po').value,r:$('#pr').value.trim(),c:$('#pc').value.trim()});
+log(`Paiement de ${M(m)} sur la facture ${i.n} (${fn(i.f)})`);save();closeM();render();toast(rest(i)>0?`Paiement enregistré. Reste à payer : ${M(rest(i))}`:'Paiement enregistré. Facture entièrement payée.')}
+function pDel(id){const p=DB.p.find(x=>x.id==id);ask(`Supprimer le paiement de ${M(p.m)} du ${D(p.d)} ? Le reste à payer sera recalculé.`,()=>{log(`Paiement de ${M(p.m)} supprimé (facture ${invn(p.i)})`);DB.p=DB.p.filter(x=>x.id!=id);save();render()})}
+/* Rapports */
+const RP=()=>{const mo={};DB.a.forEach(a=>{const k=a.d.slice(0,7);mo[k]=r3((mo[k]||0)+a.t)});
+return[{t:'Total des achats par mois',h:['Mois','Total des achats'],r:Object.keys(mo).sort().reverse().map(k=>[k.slice(5)+'/'+k.slice(0,4),mo[k]]),m:[1]},
+{t:'Total payé par fournisseur',h:['Fournisseur','Total payé'],r:DB.f.map(f=>[f.n,T(DB.p.filter(p=>p.f==f.id),p=>p.m)]),m:[1]},
+{t:'Dettes restantes par fournisseur',h:['Fournisseur','Reste à payer'],r:DB.f.map(f=>[f.n,dette(f.id)]).filter(x=>x[1]>0),m:[1]},
+{t:'Factures en retard',h:['N° facture','Fournisseur','Échéance','Reste à payer'],r:DB.i.filter(late).map(i=>[i.n,fn(i.f),D(i.e),rest(i)]),m:[3]}]};
+const rep=()=>hd('Rapports')+RP().map((x,k)=>`<div class="card rc" id="rc${k}"><div class="hd"><h2>${x.t}</h2><span class="noprint"><button class="btn sm sec" onclick="xr(${k})">Exporter Excel</button> <button class="btn sm" onclick="pr(${k})">PDF / Imprimer</button></span></div>${tbl(x.h,x.r.map(r=>r.map((c,j)=>x.m.includes(j)?M(c):esc(c)))).replace('card tw','tw')}</div>`).join('');
+const csv=(h,r)=>'\ufeff'+[h,...r].map(x=>x.map(c=>`"${String(typeof c=='number'?String(c).replace('.',','):c??'').replace(/"/g,'""')}"`).join(';')).join('\r\n'),
+xr=k=>{const x=RP()[k];sv(`mosaik7-${x.t.toLowerCase().replace(/[^a-z]+/g,'-')}.csv`,csv(x.h,x.r))};
+function pr(k){const e=$('#rc'+k);e.classList.add('only');document.body.classList.add('pr');try{print()}catch(x){toast('Utilisez Ctrl+P pour enregistrer en PDF.')}setTimeout(()=>{e.classList.remove('only');document.body.classList.remove('pr')},600)}
+function sv(name,data){const a=document.createElement('a');a.href=URL.createObjectURL(data instanceof Blob?data:new Blob([data],{type:'text/plain;charset=utf-8'}));a.download=name;document.body.append(a);a.click();a.remove()}
+/* Données, sauvegarde, journal */
+const EX={fournisseurs:()=>[['Société','Contact','Téléphone','Email','Adresse','Notes'],DB.f.map(f=>[f.n,f.c,f.t,f.e,f.a,f.o])],
+achats:()=>[['Date','Fournisseur','N° facture','Désignation','Quantité','Prix unitaire','Total ligne','Mode'],DB.a.flatMap(a=>a.l.map(l=>[D(a.d),fn(a.f),a.n,l.p,l.q,l.u,r3(l.q*l.u),a.m]))],
+factures:()=>[['N° facture','Fournisseur','Date','Échéance','Total','Payé','Restant','Statut'],DB.i.map(i=>[i.n,fn(i.f),D(i.d),D(i.e),i.t,paid(i),rest(i),stat(i)])],
+paiements:()=>[['Date','Fournisseur','Facture','Montant','Mode','Référence','Commentaire'],DB.p.map(p=>[D(p.d),fn(p.f),invn(p.i),p.m,p.o,p.r,p.c])]};
+const dat=()=>hd('Données et journal')+`<div class="card"><h2>Sauvegarde</h2><p class="mu">Vos données sont enregistrées dans la base de données en ligne de ce site : elles sont partagées entre tous vos appareils. Une sauvegarde de temps en temps reste conseillée.</p><button class="btn" onclick="sv('mosaik7-sauvegarde-'+today()+'.json',JSON.stringify(DB))">Télécharger une sauvegarde</button><p><label>Restaurer une sauvegarde<input type="file" accept=".json,application/json" onchange="rst(this)"></label></p><p><label>Ou collez ici le texte d’une sauvegarde<textarea id="rt" rows="3"></textarea></label></p><button class="btn sec" onclick="rst({files:[new Blob([$('#rt').value])]})">Restaurer depuis le texte</button></div><div class="card"><h2>Exports Excel</h2>${Object.keys(EX).map(k=>`<button class="btn sec" onclick="sv('mosaik7-${k}.csv',csv(...EX.${k}()))">${k[0].toUpperCase()+k.slice(1)}</button>`).join(' ')}</div><h2>Journal des opérations</h2>${tbl(['Date et heure','Opération'],DB.j.map(j=>[new Date(j.d).toLocaleString('fr-FR'),esc(j.t)]))}`;
+function rst(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=remap(JSON.parse(r.result));if(!['f','a','i','p'].every(k=>Array.isArray(d[k])))throw 0;
+ask(`Remplacer toutes les données actuelles par cette sauvegarde (${d.f.length} fournisseurs, ${d.i.length} factures) ?`,()=>{DB=Object.assign({j:[]},d);DB.a.forEach(a=>{if(a.fl&&a.fl.d)a.fl=null});log('Sauvegarde restaurée');save();render();toast('Données restaurées.')})}catch(e){toast('Fichier de sauvegarde invalide.')}};r.readAsText(f)}
+(()=>{const h=location.hash.slice(1);V=NAV.some(n=>n[0]==h)?h:'dash';render();start()})();
+</script></body></html>
